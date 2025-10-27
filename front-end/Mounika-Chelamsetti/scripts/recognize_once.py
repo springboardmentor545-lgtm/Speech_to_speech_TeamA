@@ -6,10 +6,10 @@ import csv
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Load environment variables
+# ✅ Load environment variables properly
 load_dotenv()
-speech_key = os.getenv("G9kY3Nzzj6qvT1lVZ2hhdyRAMuX4Q5K1OZRXvoCXsbvPViJyJTOnJQQJ99BJACGhslBXJ3w3AAAYACOGovng")
-service_region = os.getenv("centralindia")
+speech_key = os.getenv("AZURE_SPEECH_KEY")
+service_region = os.getenv("AZURE_REGION")
 
 # Base and output directories
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))

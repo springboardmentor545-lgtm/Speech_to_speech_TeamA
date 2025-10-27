@@ -3,10 +3,14 @@ import csv
 import azure.cognitiveservices.speech as speechsdk
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
-SPEECH_KEY = os.getenv("G9kY3Nzzj6qvT1lVZ2hhdyRAMuX4Q5K1OZRXvoCXsbvPViJyJTOnJQQJ99BJACGhslBXJ3w3AAAYACOGovng")
-SERVICE_REGION = os.getenv("centralindia")
 
+# ✅ Correct variable names
+SPEECH_KEY = os.getenv("AZURE_SPEECH_KEY")
+SERVICE_REGION = os.getenv("AZURE_REGION")
+
+# Folder setup
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, "speech_samples")
 OUTPUT_DIR = os.path.join(BASE_DIR, "transcripts")
