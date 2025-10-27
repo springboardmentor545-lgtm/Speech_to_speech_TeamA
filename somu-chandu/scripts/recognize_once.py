@@ -2,6 +2,8 @@ import azure.cognitiveservices.speech as speechsdk
 import threading
 import time
 import os
+import csv
+from datetime import datetime
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -9,9 +11,14 @@ load_dotenv()
 speech_key = os.getenv("AZURE_SPEECH_KEY")
 service_region = os.getenv("AZURE_REGION")
 
+# Base and output directories
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+OUTPUT_DIR = os.path.join(BASE_DIR, "transcripts")
+OUTPUT_CSV = os.path.join(OUTPUT_DIR, "recognized_output.csv")
+
 def recognize_from_microphone_enhanced():
     """
-    Enhanced real-time speech recognition with voice stop and multiple features
+    Enhanced real-time speech recognition with auto-stop and CSV output
     """
     if not speech_key or not service_region:
         print("❌ Azure credentials missing. Check your .env file.")
@@ -35,12 +42,13 @@ def recognize_from_microphone_enhanced():
     
     def recognized_cb(evt):
         if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech:
-            text = evt.result.text.strip().lower()
-            recognized_text.append(evt.result.text)
-            print(f"🎯 {evt.result.text}")
-            if any(phrase in text for phrase in stop_phrases):
-                print("\n🛑 Stop command detected!")
-                stop_event.set()
+            text = evt.result.text.strip()
+            if text:
+                recognized_text.append(text)
+                print(f"🎯 {text}")
+                if any(phrase in text.lower() for phrase in stop_phrases):
+                    print("\n🛑 Stop command detected!")
+                    stop_event.set()
     
     def canceled_cb(evt):
         print(f"❌ Recognition canceled: {evt.result.reason}")
@@ -59,21 +67,30 @@ def recognize_from_microphone_enhanced():
                 stop_event.set()
             time.sleep(0.1)
     except KeyboardInterrupt:
-        print("\n⏹️  Manual stop requested...")
+        print("\n⏹️ Manual stop requested...")
     finally:
         speech_recognizer.stop_continuous_recognition_async().get()
         print("🟢 Recording stopped")
     
-    if recognized_text:
-        final_transcript = [t for t in recognized_text if not any(p in t.lower() for p in stop_phrases)]
-        if final_transcript:
-            full_text = " ".join(final_transcript)
-            print("\n🎉 FINAL TRANSCRIPTION:\n")
-            print(full_text)
-        else:
-            print("❌ Only stop command detected.")
+    # Filter out stop command and prepare final transcript
+    final_transcript = [t for t in recognized_text if not any(p in t.lower() for p in stop_phrases)]
+    
+    if final_transcript:
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        full_text = " ".join(final_transcript)
+        
+        # Write to CSV file
+        with open(OUTPUT_CSV, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["timestamp", "transcript"])
+            writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), full_text])
+        
+        print("\n🎉 FINAL TRANSCRIPTION SAVED!")
+        print(f"📄 Saved to: {OUTPUT_CSV}\n")
+        print("🗣️ TRANSCRIPT:\n")
+        print(full_text)
     else:
-        print("❌ No speech recognized.")
+        print("❌ No valid speech recognized (only stop command detected).")
 
 if __name__ == "__main__":
     recognize_from_microphone_enhanced()
