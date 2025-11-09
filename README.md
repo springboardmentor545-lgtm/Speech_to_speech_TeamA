@@ -1,5 +1,5 @@
 # Speech_to_speech_TeamA
-# AI-Powered Real-Time Speech Translation: Milestones 1 & 2
+# AI-Powered Real-Time Speech Translation for Multilingual Content
 
 This document outlines the setup, API, and I/O for the first two milestones of the project.
 
