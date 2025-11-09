@@ -71,6 +71,11 @@ In addition to the core task, two extra features were implemented to improve the
 
 2.  **Automated Audio Conversion (in-code):** The main `transcribe_files.py` script was enhanced to automatically detect and convert any non-WAV audio file (like MP3, M4A, etc.) using `ffmpeg`. This creates a more robust pipeline where any audio format can be processed without manual conversion.
 
+### Milestone 1 Snippets
+<img width="871" height="130" alt="1" src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" />
+![2](https://github.com/user-attachments/assets/47ac6d41-0619-41a7-bd0f-9476813b48e4)
+
+
 ---
 
 ## Milestone 2: Translation Module & STT Integration
