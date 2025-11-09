@@ -1,17 +1,21 @@
 # Speech_to_speech_TeamA
-# AI-Powered Real-Time Speech Translation for Multilingual Content
+# AI-Powered Real-Time Speech Translation
+
 **Project Goal:** This project aims to develop a real-time, speech-to-speech translation system. It will convert live spoken content (from English/Hindi) into 12+ languages, making content on OTT platforms more accessible to a multilingual audience.
 
 **Document Purpose:** This README tracks the technical progress of the project, detailing the setup steps, API usage, and I/O for each completed milestone.
 
+---
+
 ## Milestone 1: Speech Recognition & Data Collection
+
+This milestone involved setting up the Azure Speech-to-Text service. This was achieved through two features: transcribing a batch of pre-recorded audio files and transcribing live audio from a microphone.
 
 ### Setup Steps
 
 1.  **Local Environment:** Installed Python 3.9+, pip, and `ffmpeg` (for audio conversion).
 2.  **Folder Structure:** Created the main project folders: `/speech_samples`, `/scripts`, and `/transcripts`.
-3.  **Audio Conversion:** Used `ffmpeg` to convert all raw audio files into the required `.wav` format (16 kHz, mono).
-4.  **Azure SDK:** Installed the Azure Speech SDK for Python using the command:
+3.  **Azure SDK:** Installed the Azure Speech SDK for Python using the command:
     `pip install azure-cognitiveservices-speech`
 
 ### API Details
@@ -19,26 +23,56 @@
 * **Service:** Azure Cognitive Services - **Speech Service**
 * **Authentication:** Used a **Speech Key** and **Service Region** (e.g., `centralindia`) from the Azure portal.
 * **SDK:** `azure.cognitiveservices.speech` (Python)
-* **Key Function:** `speechsdk.SpeechRecognizer()` was used to process audio files.
+* **Key Functions:**
+    * `speechsdk.AudioConfig(filename=...)` was used for *file-based* transcription.
+    * `speechsdk.AudioConfig(use_default_microphone=True)` was used for *live* transcription.
 * **Language Specificity:** The `language="hi-IN"` parameter was set in the recognizer to correctly transcribe Hindi.
 
-### Sample Input / Output
+### Feature 1: Batch Transcription from Files
 
-* **Input:** 10 audio files (`.wav` format) placed in the `/speech_samples` folder.
+This feature uses the `transcribe_files.py` script to process all audio files from the `/speech_samples` folder.
+
+* **Input:** 10 standardized audio files (`.wav` format) placed in the `/speech_samples` folder.
     * `en_1audio.wav`
     * `hi_1audio.wav`
-    * ...etc.
-
 * **Output:** A single `transcripts.csv` file created in the `/transcripts` folder.
     ```csv
     filename,language,transcript
-    en_1audio.wav,en,Looking with a half fantastic curiosity...
+    en_1audio.wav,en,Historic moment for Indian cricket Virat Kohli...
     hi_1audio.wav,hi,आज मौसम साफ बना हुआ है और तापमान सामान्य रहेगा...
     ```
+
+### Feature 2: Live Transcription from Microphone
+
+This feature uses the `recognize_once.py` script to capture and transcribe speech directly from the user's microphone.
+
+* **Input:** Live speech spoken into the default microphone after running the script.
+* **Output (Live Terminal Session):** The script interactively records and prints the live transcript.
+    ```bash
+    PS C:\...> python scripts\recognize_once.py
+    VOICE RECORDER WITH AUTO-STOP
+    Say 'end recording' to stop, or press Ctrl+C manually.
+
+    Recording started... Speak now!
+    Hello.
+    End recording.
+
+    Stop command detected!
+    Recording stopped
+
+    FINAL TRANSCRIPTION SAVED!
+    Saved to: ...\transcripts\recognized_output.csv
+
+    TRANSCRIPT:
+    Hello.
+    ```
+* **Output (Saved File):** The live transcript is saved to its own file (`recognized_output.csv`).
 
 ---
 
 ## Milestone 2: Translation Module & STT Integration
+
+This milestone involved creating a "Translation Module" and integrating it with the **file-based STT output** (`transcripts.csv`) from Milestone 1.
 
 ### Setup Steps
 
@@ -46,7 +80,7 @@
 2.  **Configuration:** Set the pricing tier to **F0 (Free)** and the region to `centralindia` to match the Speech service.
 3.  **Library:** Installed the `requests` library to communicate with the Translator's REST API:
     `pip install requests`
-4.  **Integration:** Wrote a new script (`translate_text.py`) to read the `transcripts.csv` from Milestone 1 and pass its contents to the new translation module.
+4.  **Integration:** Wrote a new script (`translate_text.py`) to automatically read the `transcripts.csv` from Milestone 1 and pass its contents to the new translation module.
 
 ### API Details
 
@@ -72,7 +106,7 @@
 
     Translated Outputs:
        HI: भारतीय क्रिकेट विराट कोहली के लिए ऐतिहासिक पल...
-       FR: Moment historique pour le cricket indien Virat Kohli...
+       FR: Moment historique for le cricket indien Virat Kohli...
        ES: Momento histórico para el cricket indio Virat Kohli...
        DE: Historischer Moment für das indische Cricket Virat Kohli...
     ==================================================
@@ -86,4 +120,5 @@
        ES: Hoy el tiempo está despejado...
        DE: Heute ist das Wetter klar...
     ==================================================
+    ```
     ```
