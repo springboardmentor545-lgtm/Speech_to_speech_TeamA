@@ -73,7 +73,15 @@ In addition to the core task, two extra features were implemented to improve the
 
 ### Milestone 1 Snippets
 <img width="871" height="130" alt="1" src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" />
-![2](https://github.com/user-attachments/assets/47ac6d41-0619-41a7-bd0f-9476813b48e4)
+<br>
+transcripts.csv file output
+
+<br>
+
+<img width="845" height="278" alt="snipp" src="https://github.com/user-attachments/assets/0c170356-06b0-4e2a-aa5f-f6c8c1f994cc" />
+<br>
+Terminal window output showing our additional feature
+
 
 
 ---
@@ -129,3 +137,7 @@ This milestone involved creating a "Translation Module" and integrating it with 
        DE: Heute ist das Wetter klar...
     ==================================================
     ```
+### Milestone 2 Snippets
+<img width="771" height="176" alt="image" src="https://github.com/user-attachments/assets/b3146c01-0bd5-4133-832b-3afb58814d04" />
+<br>
+Terminal window output showing the conversion of one of the audio files into 4 different languages
