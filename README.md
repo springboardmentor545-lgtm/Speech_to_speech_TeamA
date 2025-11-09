@@ -75,7 +75,7 @@ In addition to the core task, two extra features were implemented to improve the
 <img width="871" height="130" alt="1" src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" />
 <br>
 transcripts.csv file output
-
+<br>
 <br>
 
 <img width="845" height="278" alt="snipp" src="https://github.com/user-attachments/assets/0c170356-06b0-4e2a-aa5f-f6c8c1f994cc" />
@@ -141,3 +141,9 @@ This milestone involved creating a "Translation Module" and integrating it with 
 <img width="771" height="176" alt="image" src="https://github.com/user-attachments/assets/b3146c01-0bd5-4133-832b-3afb58814d04" />
 <br>
 Terminal window output showing the conversion of one of the audio files into 4 different languages
+<br>
+<br>
+<img width="703" height="392" alt="image" src="https://github.com/user-attachments/assets/cec6d3e7-b846-42bb-86a0-1561185854d4" />
+<br>
+Frontend UI Demonstration
+A web-based user interface was developed to provide a visual front-end for the translation service. It allows a user to "Speak" or "Upload" an audio file, see the recognized text, and get the final translation.
