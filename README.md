@@ -9,7 +9,7 @@
 
 ## Milestone 1: Speech Recognition & Data Collection
 
-This milestone involved setting up the Azure Speech-to-Text service. This was achieved through two features: transcribing a batch of pre-recorded audio files and transcribing live audio from a microphone.
+This milestone involved setting up the Azure Speech-to-Text service to transcribe a batch of pre-recorded audio files. Several additional features were also developed to enhance the project.
 
 ### Setup Steps
 
@@ -28,7 +28,7 @@ This milestone involved setting up the Azure Speech-to-Text service. This was ac
     * `speechsdk.AudioConfig(use_default_microphone=True)` was used for *live* transcription.
 * **Language Specificity:** The `language="hi-IN"` parameter was set in the recognizer to correctly transcribe Hindi.
 
-### Feature 1: Batch Transcription from Files
+### Batch Transcription from Files
 
 This feature uses the `transcribe_files.py` script to process all audio files from the `/speech_samples` folder.
 
@@ -42,31 +42,34 @@ This feature uses the `transcribe_files.py` script to process all audio files fr
     hi_1audio.wav,hi,आज मौसम साफ बना हुआ है और तापमान सामान्य रहेगा...
     ```
 
-### Feature 2: Live Transcription from Microphone
+### Additional Features
 
-This feature uses the `recognize_once.py` script to capture and transcribe speech directly from the user's microphone.
+In addition to the core task, two extra features were implemented to improve the project's functionality:
 
-* **Input:** Live speech spoken into the default microphone after running the script.
-* **Output (Live Terminal Session):** The script interactively records and prints the live transcript.
-    ```bash
-    PS C:\...> python scripts\recognize_once.py
-    VOICE RECORDER WITH AUTO-STOP
-    Say 'end recording' to stop, or press Ctrl+C manually.
+1.  **Live Microphone Transcription:** A second script (`recognize_once.py`) was developed to capture and transcribe speech directly from the user's microphone in real-time. The script detects speech, stops on silence or a voice command, and saves the result.
 
-    Recording started... Speak now!
-    Hello.
-    End recording.
+    * **Sample Input:** Live speech spoken into the default microphone after running the script.
+    * **Sample Output (Live Terminal Session):**
+        ```bash
+        PS C:\...> python scripts\recognize_once.py
+        VOICE RECORDER WITH AUTO-STOP
+        Say 'end recording' to stop, or press Ctrl+C manually.
 
-    Stop command detected!
-    Recording stopped
+        Recording started... Speak now!
+        Hello.
+        End recording.
 
-    FINAL TRANSCRIPTION SAVED!
-    Saved to: ...\transcripts\recognized_output.csv
+        Stop command detected!
+        Recording stopped
 
-    TRANSCRIPT:
-    Hello.
-    ```
-* **Output (Saved File):** The live transcript is saved to its own file (`recognized_output.csv`).
+        FINAL TRANSCRIPTION SAVED!
+        Saved to: ...\transcripts\recognized_output.csv
+
+        TRANSCRIPT:
+        Hello.
+        ```
+
+2.  **Automated Audio Conversion (in-code):** The main `transcribe_files.py` script was enhanced to automatically detect and convert any non-WAV audio file (like MP3, M4A, etc.) using `ffmpeg`. This creates a more robust pipeline where any audio format can be processed without manual conversion.
 
 ---
 
@@ -120,5 +123,4 @@ This milestone involved creating a "Translation Module" and integrating it with 
        ES: Hoy el tiempo está despejado...
        DE: Heute ist das Wetter klar...
     ==================================================
-    ```
     ```
