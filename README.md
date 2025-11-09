@@ -1,9 +1,8 @@
 # Speech_to_speech_TeamA
 # AI-Powered Real-Time Speech Translation for Multilingual Content
+**Project Goal:** This project aims to develop a real-time, speech-to-speech translation system. It will convert live spoken content (from English/Hindi) into 12+ languages, making content on OTT platforms more accessible to a multilingual audience.
 
-This document outlines the setup, API, and I/O for the first two milestones of the project.
-
----
+**Document Purpose:** This README tracks the technical progress of the project, detailing the setup steps, API usage, and I/O for each completed milestone.
 
 ## Milestone 1: Speech Recognition & Data Collection
 
