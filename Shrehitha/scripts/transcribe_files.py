@@ -6,35 +6,47 @@ SERVICE_REGION = "centralindia"
 INPUT_DIR = "speech_samples"
 OUTPUT_CSV = "transcripts/transcripts.csv"
 
-speech_config = speechsdk.SpeechConfig(subscription=SPEECH_KEY, region=SERVICE_REGION)
+os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
 
 
-def transcribe_file(path):
-    audio = speechsdk.AudioConfig(filename=path)
+def transcribe_file(file_path, language):
+    speech_config = speechsdk.SpeechConfig(
+        subscription=SPEECH_KEY, region=SERVICE_REGION
+    )
+    speech_config.speech_recognition_language = language
+    audio_input = speechsdk.AudioConfig(filename=file_path)
     recognizer = speechsdk.SpeechRecognizer(
-        speech_config=speech_config, audio_config=audio
+        speech_config=speech_config, audio_config=audio_input
     )
     result = recognizer.recognize_once_async().get()
-    return (
-        result.text
-        if result.reason == speechsdk.ResultReason.RecognizedSpeech
-        else None
-    )
+    if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+        return result.text
+    else:
+        return ""
 
 
-os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
-with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
-    writer = csv.writer(f)
+with open(OUTPUT_CSV, mode="w", newline="", encoding="utf-8") as csvfile:
+    writer = csv.writer(csvfile)
     writer.writerow(["filename", "language", "transcript"])
+
     for fname in sorted(os.listdir(INPUT_DIR)):
-        if fname.endswith(".wav"):
-            lang = (
-                "en"
-                if fname.startswith("en_")
-                else "hi"
-                if fname.startswith("hi_")
-                else "unknown"
-            )
-            text = transcribe_file(os.path.join(INPUT_DIR, fname))
-            writer.writerow([fname, lang, text or ""])
-            print(f"→ {fname}: {text}")
+        if not fname.lower().endswith(".wav"):
+            continue
+
+        
+        if fname.startswith("en_") or fname.startswith("eng_"):
+            lang_code = "en-IN"
+            lang_short = "en"
+        elif fname.startswith("hi_") or fname.startswith("hindi_"):
+            lang_code = "hi-IN"
+            lang_short = "hi"
+        else:
+            lang_code = "en-IN"
+            lang_short = "unknown"
+
+        path = os.path.join(INPUT_DIR, fname)
+        print(f"Transcribing {fname} ({lang_code}) ...")
+
+        text = transcribe_file(path, lang_code)
+        writer.writerow([fname, lang_short, text])
+        print("→", fname + ":", text)
