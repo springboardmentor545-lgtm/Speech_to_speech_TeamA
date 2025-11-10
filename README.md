@@ -137,6 +137,20 @@ This milestone involved creating a "Translation Module" and integrating it with 
        DE: Heute ist das Wetter klar...
     ==================================================
     ```
+### Workflow Summary 
+
+🎙 Audio Input  
+     ↓  
+🗣 Speech-to-Text (Azure Speech Service)  
+     ↓  
+📝 transcripts.csv  
+     ↓  
+🌍 Text Translation (Azure Translator API)  
+     ↓  
+🧠 Streamlit Frontend for Display  
+     ↓  
+🔊 (Next) Neural TTS for Voice Output
+
 ### Milestone 2 Snippets
 <img width="771" height="176" alt="image" src="https://github.com/user-attachments/assets/b3146c01-0bd5-4133-832b-3afb58814d04" />
 <br>
