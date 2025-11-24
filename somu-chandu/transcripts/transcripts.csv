@@ -1,11 +1,4 @@
 filename,language,language_name,transcript
 en_commentary1.wav,en-US,English,"Communication technology has evolved rapidly in the last decade. Voice assistants, real-time translation and speech recognition systems are becoming part of everyday life."
-en_commentary2.wav,en-US,English,The atmosphere in the stadium is electric. The home team needs just ten runs to win and the tension is rising with every ball. The captain looks focused as he takes his stance.
-en_commentary3.wav,en-US,English,What a fantastic cover drive by the batsmen. The timing was perfect and the ball races away to the boundary. The crowd is loving this performance and the bowler looks a bit frustrated after that elegant shot.
-en_news1.wav,en-US,English,"Hello, you are listening to today's top news. After a light rain this morning in Delhi, the weather has become pleasant, bringing relief from the heat."
-en_news2.wav,en-US,English,"Today's weather remains mostly clear, with gentle winds in the morning. However, scattered thunderstorms are likely in the evening, especially around coastal areas."
+en_yt_short.wav,en-US,English,Nobody is going to give you anything that you have not earned.
 hi_commentary1.wav,hi-IN,Hindi,"पिछले दशक में संचार तकनीक का तेजी से विकास हुआ है। वॉइस असिस्टेंट, रियल टाइम ट्रांसलेशन और स्पीच रिग्निशन सिस्टम रोज़मर्रा की जिंदगी का हिस्सा बनते जा रहे हैं।"
-hi_commentary2.wav,hi-IN,Hindi,स्टेडियम में माहौल जोश से भरा हुआ है।
-hi_commentary3.wav,hi-IN,Hindi,आखिरी ओवर के तीसरे गेंद और बल्लेबाज ने छक्का जड़ दिया। दर्शक अपनी सीटों से उठ खड़े हुए हैं। मैच अब पूरी तरह से रोमांचक मोड़ पर पहुँच गया है।
-hi_news1.wav,hi-IN,Hindi,"नमस्कार आप सुन रहे हैं आज की प्रमुख खबरें दिल्ली में आज सुबह हल्की बारिश के बाद मौसम सुहावना हो गया है, जिससे लोगों को गर्मी से राहत मिली है।"
-hi_news2.wav,hi-IN,Hindi,आज मौसम ज्यादातर साफ रहेगा और सुबह हल्की हवाएं चलेंगी।

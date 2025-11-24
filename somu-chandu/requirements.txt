@@ -1,2 +1,5 @@
 azure-cognitiveservices-speech==1.32.1
+azure-ai-translator==1.0.0
 python-dotenv==1.0.0
+requests==2.31.0
+streamlit==1.28.0
