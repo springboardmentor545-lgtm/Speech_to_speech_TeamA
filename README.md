@@ -197,7 +197,6 @@ To meet the performance goals, the pipeline instruments specific timestamps for 
 
 * **Input:** Live speech into the microphone (e.g., "What a beautiful shot by Virat Kohli").
 * **Output (Audio):** The computer immediately speaks the translation in Hindi.
-* **Output (Terminal Report):** A real-time latency report is generated for every phrase to verify performance.
 
 ```text
 Listening: What a beautiful shot by Virat Kohli...
@@ -205,13 +204,12 @@ Listening: What a beautiful shot by Virat Kohli...
 [STT Final] What a beautiful shot by Virat Kohli.
 [Translated] विराट कोहली का कितना खूबसूरत शॉट है।
 
-----------------------------------------
-⚡ LATENCY REPORT for Utterance a1b2
-   Speech-to-Text: 0.842s
-   Translation:    0.125s
-   Text-to-Speech: 0.310s  <-- (Real First Byte)
-   TOTAL (E2E):    1.277s  <-- (Target: <2.0s)
-----------------------------------------
 ```
 ### Milestone 3 Snippets
+<img width="748" height="401" alt="1" src="https://github.com/user-attachments/assets/fe872e09-a2db-461a-a921-1ccb479ef5dd" />
+<img width="746" height="395" alt="2" src="https://github.com/user-attachments/assets/c9f8f450-8390-42bf-8684-18d870b5d924" />
+<img width="746" height="399" alt="3" src="https://github.com/user-attachments/assets/e939db01-bd9f-4789-8cba-8fc4c4572ebd" />
+<img width="748" height="398" alt="Screenshot 2025-11-24 183214" src="https://github.com/user-attachments/assets/fb734793-000a-48ab-bc4e-2b5762f88290" />
+
+
 
