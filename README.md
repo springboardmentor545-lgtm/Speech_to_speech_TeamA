@@ -161,3 +161,57 @@ Terminal window output showing the conversion of one of the audio files into 4 d
 <br>
 Frontend UI Demonstration
 A web-based user interface was developed to provide a visual front-end for the translation service. It allows a user to "Speak" or "Upload" an audio file, see the recognized text, and get the final translation.
+
+---
+
+## Milestone 3: Real-Time Speech-to-Speech Integration
+
+This milestone focused on moving from file-based processing to a fully **real-time, event-driven pipeline**. The system now captures live audio, translates it, and synthesizes speech instantly, meeting the "End-to-End Latency < 2 seconds" requirement.
+
+### Setup Steps
+
+1.  **Folder Structure:** Created a dedicated `milestone3` folder with subdirectories for `temp` storage and `logs`.
+2.  **Orchestrator Script:** Developed `orchestrator.py`, a main control script that manages the asynchronous events between the Microphone, Azure STT, Azure Translator, and Azure TTS.
+3.  **Silence Optimization:** Tuned the Azure `Speech_SegmentationSilenceTimeoutMs` to **2000ms** to prevent the system from cutting off sentences too early during live speaking.
+
+### API Details
+
+* **Service:** Azure Cognitive Services - **Speech Service (Text-to-Speech)**
+* **Function:** `speech_synthesizer.speak_text_async()`
+* **Streaming:** Enabled streaming synthesis to ensure playback starts (`t5`) as soon as the first byte of audio arrives (`t4`), rather than waiting for the whole file to generate.
+* **Voice Selection:** Configured to use specific neural voices (e.g., `hi-IN-SwaraNeural`) for natural-sounding output.
+
+### Latency Instrumentation & Architecture
+
+To meet the performance goals, the pipeline instruments specific timestamps for every utterance:
+
+* **$t_0$ (Audio Start):** Mic detects speech.
+* **$t_2$ (STT Final):** Text transcription received.
+* **$t_3$ (Translation):** Translated text received.
+* **$t_4$ (TTS First Byte):** First audio byte received from Azure (measured via `synthesizing` event).
+* **$t_5$ (Playback):** Audio begins playing on the client.
+
+**Formula:** `End-to-End Latency = t5 - t0`
+
+### Sample Input / Output (Live Demo)
+
+* **Input:** Live speech into the microphone (e.g., "What a beautiful shot by Virat Kohli").
+* **Output (Audio):** The computer immediately speaks the translation in Hindi.
+* **Output (Terminal Report):** A real-time latency report is generated for every phrase to verify performance.
+
+```text
+Listening: What a beautiful shot by Virat Kohli...
+
+[STT Final] What a beautiful shot by Virat Kohli.
+[Translated] विराट कोहली का कितना खूबसूरत शॉट है।
+
+----------------------------------------
+⚡ LATENCY REPORT for Utterance a1b2
+   Speech-to-Text: 0.842s
+   Translation:    0.125s
+   Text-to-Speech: 0.310s  <-- (Real First Byte)
+   TOTAL (E2E):    1.277s  <-- (Target: <2.0s)
+----------------------------------------
+```
+### Milestone 3 Snippets
+
