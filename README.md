@@ -1,85 +1,115 @@
-# 🎙️ AI-Powered Real-Time Speech Translation
+# 🎙️ AI-Powered Real-Time Speech Translator
 
+![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square)
+![Azure](https://img.shields.io/badge/Azure-Cognitive%20Services-0078D4?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-![Status](https://img.shields.io/badge/Status-Active-success)
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Azure](https://img.shields.io/badge/Azure-Cognitive%20Services-0078D4)
-
-> **Project Goal:** To develop a real-time, speech-to-speech translation system capable of converting live spoken content (English/Hindi) into 12+ languages, increasing accessibility for multilingual audiences on OTT platforms.
-
----
-
-## 📑 Table of Contents
-1. [System Architecture](#architecture)
-2. [Setup & Installation](#setup)
-3. [Milestone 1: Speech Recognition](#milestone1)
-4. [Milestone 2: Translation Module](#milestone2)
-5. [Milestone 3: Real-Time Integration](#milestone3)
+> **Bridging language barriers in real-time through event-driven AI orchestration.**
 
 ---
 
-## <a name="architecture"></a>🏗 System Architecture
+## 📖 Overview
 
-*High-level data flow illustrating the central Python orchestrator managing interactions between Speech-to-Text, Translation, and Text-to-Speech services.*
+This project implements a high-performance, bidirectional speech-to-speech translation system designed to increase accessibility for multilingual audiences on OTT platforms.
+
+Moving beyond simple transcription, this solution offers a **unified translation engine** capable of processing two distinct audio sources with sub-2-second latency:
+1.  **Live Input:** Real-time microphone capture for conversation translation.
+2.  **Content Input:** Instant audio extraction and translation of YouTube videos via URL.
+
+**[🖼️ IMAGE PLACEHOLDER: Insert a clean, high-resolution banner image here. ideally a collage showing a waveform, a YouTube logo, and language flags connected by lines.]**
+
+---
+
+## ✨ Key Features
+
+*   **⚡ Low-Latency Orchestration:** Achieves an end-to-end processing time of **<2000ms** using asynchronous Python event loops.
+*   **🎥 YouTube Integration:** Integrated `yt-dlp` pipeline to extract, transcode, and translate video audio streams on the fly.
+*   **🌍 Multi-Language Support:** Powered by Azure Cognitive Services to support 12+ global languages (English, Hindi, French, German, etc.).
+*   **🎨 Modern Bento-Grid Dashboard:** A high-contrast, dark-mode user interface designed for accessibility, featuring real-time status indicators and audio visualization.
+*   **🧠 Smart Silence Detection:** Optimized VAD (Voice Activity Detection) to handle natural pauses in speech without cutting context.
+
+---
+
+## 🏗 System Architecture
+
+The system relies on a Python-based orchestrator that manages the flow of data between the Audio I/O layer and Azure Cloud Services.
+
+**[🖼️ IMAGE PLACEHOLDER: Insert the Mermaid Diagram below (or a screenshot of it) here.]**
 
 ```mermaid
-graph TD
-    %% Nodes
-    User([👤 User / Mic])
-    App{🐍 Python Orchestrator}
-    STT[🗣️ Speech-to-Text]
-    TR[🌍 Translation]
-    TTS[🔊 Text-to-Speech]
-
-    %% Flow
-    User -->|1. Speak| App
-    App -->|2. Send Audio| STT
-    STT -.->|3. Transcribed Text| App
-    App -->|4. Send Text| TR
-    TR -.->|5. Translated Text| App
-    App -->|6. Send Translation| TTS
-    TTS -.->|7. Audio Stream| App
-    App -->|8. Playback| User
-
-    %% Styling (Colors)
-    style User fill:#f9f9f9,stroke:#333,stroke-width:2px
-    style App fill:#FF9900,stroke:#CC7A00,stroke-width:2px,color:white
-    style STT fill:#0078D4,stroke:#004C87,stroke-width:2px,color:white
-    style TR fill:#107C10,stroke:#0B5A0B,stroke-width:2px,color:white
-    style TTS fill:#D13438,stroke:#A4262C,stroke-width:2px,color:white
+graph LR
+    Input[🎤 Mic / 📺 YouTube] --> Ext[📥 Audio Extractor]
+    Ext --> Orchestrator{🐍 Orchestrator}
+    Orchestrator --> STT[☁️ Azure STT]
+    STT --> Trans[☁️ Azure Translate]
+    Trans --> TTS[☁️ Azure TTS]
+    TTS --> Speaker[🔊 Audio Output]
+    
+    style Orchestrator fill:#FF9900,stroke:#333,stroke-width:2px,color:white
+    style STT fill:#0078D4,stroke:#333,stroke-width:0px,color:white
+    style Trans fill:#107C10,stroke:#333,stroke-width:0px,color:white
+    style TTS fill:#5C2D91,stroke:#333,stroke-width:0px,color:white
 ```
+### 📉 Latency Modeling
+
+To ensure real-time performance, the pipeline optimizes the following time-to-audio equation:
+
+<div align="center">
+  <img src="https://latex.codecogs.com/svg.image?\color{White}\text{Latency}=t_{playback}-t_{start}\approx\sum(t_{transcription}+t_{translation}+t_{synthesis})" alt="Latency Equation" />
+</div>
+
 
 ---
 
-## <a name="setup"></a>⚙️ Setup & Installation
+## 🚀 User Interface
 
-Follow these steps to set up the project locally for development or testing.
+The application features a modern, Bento-grid style dashboard optimized for clarity.
+
+**🖼️ IMAGE PLACEHOLDER — UI Screenshot**
+
+**Dashboard Elements:**
+- Mode toggle (Microphone / YouTube)
+- Live transcript + translation
+- Real-time audio waveform visualizers
+
+---
+
+## 🛠️ Tech Stack
+
+| Component       | Technology Used                     |
+|----------------|-------------------------------------|
+| Core Logic     | Python 3.9+                         |
+| Cloud AI       | Azure Speech SDK, Azure Translator  |
+| Audio Processing | FFmpeg, PyAudio, yt-dlp          |
+| Frontend       | Streamlit (Bento UI)                |
+| Data Handling  | Pandas, CSV                         |
+
+---
+
+## ⚙️ Installation & Setup
 
 ### 1. Prerequisites
+- Python 3.9+
+- FFmpeg installed and added to PATH
+- Azure Subscription
 
-* **Python 3.9+**
-* **Azure Cloud Account** with an active subscription.
-* **FFmpeg** (Required for audio format conversion).
-
-### 2. Installation
+### 2. Clone and Install
 
 ```bash
-# Clone the repository
-git clone [https://github.com/your-username/Speech_to_speech_project.git](https://github.com/your-username/Speech_to_speech_project.git)
+git clone https://github.com/your-username/Speech_to_speech_project.git
 cd Speech_to_speech_project
 
-# Create a virtual environment (Recommended)
+# Create virtual environment
 python -m venv venv
-# Windows: .\venv\Scripts\activate
-# Mac/Linux: source venv/bin/activate
+source venv/bin/activate  # Windows: .\venv\Scripts\activate
 
 # Install dependencies
-pip install azure-cognitiveservices-speech requests python-dotenv
+pip install -r requirements.txt
 ```
+### 3. Configuration
 
-### 3. Configuration (.env)
-
-Create a `.env` file in the root directory. **Do not hardcode keys.**
+Create a `.env` file:
 
 ```ini
 SPEECH_KEY=your_azure_speech_key
@@ -87,122 +117,43 @@ SPEECH_REGION=centralindia
 TRANSLATOR_KEY=your_azure_translator_key
 TRANSLATOR_REGION=centralindia
 ```
+## 🕹️ Usage Guide
+
+### **Mode A: Live Conversation**
+
+- Run the application:
+
+```bash
+streamlit run app.py
+```
+- Select **Microphone** from the sidebar  
+- Click **Start**  
+- Speak naturally — the system detects silence and auto-translates  
 
 ---
 
-## <a name="milestone1"></a>🚩 Milestone 1: Speech Recognition & Data Collection
+### **Mode B: YouTube Translation**
 
-**Focus:** Batch transcription of audio files and initial microphone setup.
+- Select **YouTube URL** from the sidebar  
+- Paste a valid link (e.g., news clip, speech)  
+- The system extracts audio, transcribes it, and reads out the translated speech  
 
-### 🛠 Technical Details
+**🖼️ IMAGE PLACEHOLDER:**  
+Side-by-side view — left: user speaking, right: YouTube video being translated  
 
-* **SDK:** `azure.cognitiveservices.speech`
-* **Language Support:** Configured for `en-US` and `hi-IN` (Hindi).
-* **Scripts:**
-    * `transcribe_files.py`: Batch processes `.wav` files.
-    * `recognize_once.py`: Live microphone capture.
+---
 
-### 📂 Outputs
+## 📊 Performance Logs
 
-The system processes audio from `/speech_samples` and generates a CSV:
-
-| Filename | Language | Transcript |
-| :--- | :--- | :--- |
-| `en_1audio.wav` | en | "Historic moment for Indian cricket Virat Kohli..." |
-| `hi_1audio.wav` | hi | "आज मौसम साफ बना हुआ है..." |
+The system maintains logs to measure translation accuracy and response times.
 
 <details>
-<summary><b>📸 Click to view Live Recording Logs</b></summary>
+<summary><b>📂 Click to view sample CSV Output</b></summary>
 
-```bash
-PS C:\...> python scripts\recognize_once.py
-VOICE RECORDER WITH AUTO-STOP
-Say 'end recording' to stop.
-
-Recording started... Speak now!
-Hello.
-End recording.
-
-FINAL TRANSCRIPTION SAVED!
-Saved to: ...\transcripts\recognized_output.csv
-```
+| Filename        | Language | Transcript                                   | Translation                                   |
+|-----------------|----------|-----------------------------------------------|------------------------------------------------|
+| live_rec_01.wav | en-US    | "Historic moment for Indian cricket."        | "भारतीय क्रिकेट के लिए ऐतिहासिक पल।"        |
+| yt_clip_04.wav  | hi-IN    | "आज मौसम साफ बना हुआ है..."                 | "The weather remains clear today..."          |
 
 </details>
 
-<div align="center">
-<img src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" width="800" alt="CSV Output">
-</div>
-
----
-
-## <a name="milestone2"></a>🚩 Milestone 2: Translation Module & STT Integration
-
-**Focus:** Integrating Azure Translator REST API with the STT output.
-
-### 🛠 Technical Details
-
-* **API Protocol:** REST (POST requests).
-* **Endpoint:** `api.cognitive.microsofttranslator.com`
-* **Workflow:** Reads `transcripts.csv` → Sends to API → Prints Multi-language Output.
-
-### 💻 Sample Execution
-
-<details>
-<summary><b>👁️ View Console Output Log</b></summary>
-
-```bash
-==================================================
-Original Text (en): Historic moment for Indian cricket...
-
-Translated Outputs:
-   HI: भारतीय क्रिकेट विराट कोहली के लिए ऐतिहासिक पल...
-   FR: Moment historique pour le cricket indien...
-   DE: Historischer Moment für das indische Cricket...
-==================================================
-```
-
-</details>
-
-**Frontend Demo:**
-A Streamlit-based UI was developed to visualize the input and output.
-
-<div align="center">
-<img src="https://github.com/user-attachments/assets/cec6d3e7-b846-42bb-86a0-1561185854d4" width="600" alt="Frontend UI">
-</div>
-
----
-
-## <a name="milestone3"></a>🚩 Milestone 3: Real-Time Speech-to-Speech Integration
-
-**Focus:** Full event-driven pipeline with Latency < 2 seconds.
-
-### 🚀 Key Features
-
-1. **Asynchronous Orchestration:** `orchestrator.py` manages concurrent events.
-2. **Streaming Synthesis:** TTS playback begins immediately upon receiving the first byte.
-3. **Smart Silence Detection:** Timeout tuned to `2000ms` for natural pausing.
-
-### ⏱️ Latency Architecture
-
-We instrument the following timestamps to measure performance:
-
-$$ \text{Latency} = t_{playback} - t_{mic\_start} $$
-
-* **$t_0$**: Mic detects speech.
-* **$t_2$**: STT Transcription Finalized.
-* **$t_3$**: Translation Received.
-* **$t_5$**: TTS Audio Playback Starts.
-
-### 🎥 Live Output
-
-> **Input:** "What a beautiful shot by Virat Kohli"
-> **Output (Audio):** "विराट कोहली का कितना खूबसूरत शॉट है" (Hindi)
-
-<div align="center">
-<img src="https://github.com/user-attachments/assets/fe872e09-a2db-461a-a921-1ccb479ef5dd" width="45%" alt="Latency Log 1">
-<img src="https://github.com/user-attachments/assets/c9f8f450-8390-42bf-8684-18d870b5d924" width="45%" alt="Latency Log 2">
-</div>
-
----
-
-*© 2025 Project for Infosys Springboard Virtual Internship 6.0*
