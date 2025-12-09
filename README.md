@@ -1,215 +1,208 @@
-# Speech_to_speech_TeamA
-# AI-Powered Real-Time Speech Translation
-
-**Project Goal:** This project aims to develop a real-time, speech-to-speech translation system. It will convert live spoken content (from English/Hindi) into 12+ languages, making content on OTT platforms more accessible to a multilingual audience.
-
-**Document Purpose:** This README tracks the technical progress of the project, detailing the setup steps, API usage, and I/O for each completed milestone.
-
----
-
-## Milestone 1: Speech Recognition & Data Collection
-
-This milestone involved setting up the Azure Speech-to-Text service to transcribe a batch of pre-recorded audio files. Several additional features were also developed to enhance the project.
-
-### Setup Steps
-
-1.  **Local Environment:** Installed Python 3.9+, pip, and `ffmpeg` (for audio conversion).
-2.  **Folder Structure:** Created the main project folders: `/speech_samples`, `/scripts`, and `/transcripts`.
-3.  **Azure SDK:** Installed the Azure Speech SDK for Python using the command:
-    `pip install azure-cognitiveservices-speech`
-
-### API Details
-
-* **Service:** Azure Cognitive Services - **Speech Service**
-* **Authentication:** Used a **Speech Key** and **Service Region** (e.g., `centralindia`) from the Azure portal.
-* **SDK:** `azure.cognitiveservices.speech` (Python)
-* **Key Functions:**
-    * `speechsdk.AudioConfig(filename=...)` was used for *file-based* transcription.
-    * `speechsdk.AudioConfig(use_default_microphone=True)` was used for *live* transcription.
-* **Language Specificity:** The `language="hi-IN"` parameter was set in the recognizer to correctly transcribe Hindi.
-
-### Batch Transcription from Files
-
-This feature uses the `transcribe_files.py` script to process all audio files from the `/speech_samples` folder.
-
-* **Input:** 10 standardized audio files (`.wav` format) placed in the `/speech_samples` folder.
-    * `en_1audio.wav`
-    * `hi_1audio.wav`
-* **Output:** A single `transcripts.csv` file created in the `/transcripts` folder.
-    ```csv
-    filename,language,transcript
-    en_1audio.wav,en,Historic moment for Indian cricket Virat Kohli...
-    hi_1audio.wav,hi,आज मौसम साफ बना हुआ है और तापमान सामान्य रहेगा...
-    ```
-
-### Additional Features
-
-In addition to the core task, two extra features were implemented to improve the project's functionality:
-
-1.  **Live Microphone Transcription:** A second script (`recognize_once.py`) was developed to capture and transcribe speech directly from the user's microphone in real-time. The script detects speech, stops on silence or a voice command, and saves the result.
-
-    * **Sample Input:** Live speech spoken into the default microphone after running the script.
-    * **Sample Output (Live Terminal Session):**
-        ```bash
-        PS C:\...> python scripts\recognize_once.py
-        VOICE RECORDER WITH AUTO-STOP
-        Say 'end recording' to stop, or press Ctrl+C manually.
-
-        Recording started... Speak now!
-        Hello.
-        End recording.
-
-        Stop command detected!
-        Recording stopped
-
-        FINAL TRANSCRIPTION SAVED!
-        Saved to: ...\transcripts\recognized_output.csv
-
-        TRANSCRIPT:
-        Hello.
-        ```
-
-2.  **Automated Audio Conversion (in-code):** The main `transcribe_files.py` script was enhanced to automatically detect and convert any non-WAV audio file (like MP3, M4A, etc.) using `ffmpeg`. This creates a more robust pipeline where any audio format can be processed without manual conversion.
-
-### Milestone 1 Snippets
-<img width="871" height="130" alt="1" src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" />
-<br>
-transcripts.csv file output
-<br>
-<br>
-
-<img width="845" height="278" alt="snipp" src="https://github.com/user-attachments/assets/0c170356-06b0-4e2a-aa5f-f6c8c1f994cc" />
-<br>
-Terminal window output showing our additional feature
+# 🎙️ AI-Powered Real-Time Speech Translation
 
 
+![Status](https://img.shields.io/badge/Status-Active-success)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Azure](https://img.shields.io/badge/Azure-Cognitive%20Services-0078D4)
+
+> **Project Goal:** To develop a real-time, speech-to-speech translation system capable of converting live spoken content (English/Hindi) into 12+ languages, increasing accessibility for multilingual audiences on OTT platforms.
 
 ---
 
-## Milestone 2: Translation Module & STT Integration
-
-This milestone involved creating a "Translation Module" and integrating it with the **file-based STT output** (`transcripts.csv`) from Milestone 1.
-
-### Setup Steps
-
-1.  **Azure Resource:** Created a new **Azure Translator** resource in the Azure portal.
-2.  **Configuration:** Set the pricing tier to **F0 (Free)** and the region to `centralindia` to match the Speech service.
-3.  **Library:** Installed the `requests` library to communicate with the Translator's REST API:
-    `pip install requests`
-4.  **Integration:** Wrote a new script (`translate_text.py`) to automatically read the `transcripts.csv` from Milestone 1 and pass its contents to the new translation module.
-
-### API Details
-
-* **Service:** Azure AI - **Translator** (REST API)
-* **Endpoint:** `https://api.cognitive.microsofttranslator.com/`
-* **API Version:** 3.0
-* **Authentication:** Used HTTP headers for the **Translator Key** (`Ocp-Apim-Subscription-Key`) and **Region** (`Ocp-Apim-Subscription-Region`).
-* **Method:** Sent `POST` requests to the `/translate` endpoint with a JSON body containing the text to be translated.
-
-### Sample Input / Output
-
-* **Input:** The `transcripts.csv` file generated by Milestone 1. The script reads each row of this file.
-    ```csv
-    filename,language,transcript
-    en_1audio.wav,en,Historic moment for Indian cricket Virat Kohli...
-    hi_1audio.wav,hi,आज मौसम साफ बना हुआ है...
-    ```
-
-* **Output:** A live print to the terminal for each row processed from the CSV file.
-    ```bash
-    ==================================================
-    Original Text (en): Historic moment for Indian cricket Virat Kohli...
-
-    Translated Outputs:
-       HI: भारतीय क्रिकेट विराट कोहली के लिए ऐतिहासिक पल...
-       FR: Moment historique for le cricket indien Virat Kohli...
-       ES: Momento histórico para el cricket indio Virat Kohli...
-       DE: Historischer Moment für das indische Cricket Virat Kohli...
-    ==================================================
-    
-    ==================================================
-    Original Text (hi): आज मौसम साफ बना हुआ है...
-
-    Translated Outputs:
-       EN: Today the weather is clear...
-       FR: Aujourd'hui, le temps est clair...
-       ES: Hoy el tiempo está despejado...
-       DE: Heute ist das Wetter klar...
-    ==================================================
-    ```
-### Workflow Summary 
-
-🎙 Audio Input  
-     ↓  
-🗣 Speech-to-Text (Azure Speech Service)  
-     ↓  
-📝 transcripts.csv  
-     ↓  
-🌍 Text Translation (Azure Translator API)  
-     ↓  
-🧠 Streamlit Frontend for Display  
-     ↓  
-🔊 (Next) Neural TTS for Voice Output
-
-### Milestone 2 Snippets
-<img width="771" height="176" alt="image" src="https://github.com/user-attachments/assets/b3146c01-0bd5-4133-832b-3afb58814d04" />
-<br>
-Terminal window output showing the conversion of one of the audio files into 4 different languages
-<br>
-<br>
-<img width="703" height="392" alt="image" src="https://github.com/user-attachments/assets/cec6d3e7-b846-42bb-86a0-1561185854d4" />
-<br>
-Frontend UI Demonstration
-A web-based user interface was developed to provide a visual front-end for the translation service. It allows a user to "Speak" or "Upload" an audio file, see the recognized text, and get the final translation.
+## 📑 Table of Contents
+1. [System Architecture](#architecture)
+2. [Setup & Installation](#setup)
+3. [Milestone 1: Speech Recognition](#milestone1)
+4. [Milestone 2: Translation Module](#milestone2)
+5. [Milestone 3: Real-Time Integration](#milestone3)
 
 ---
 
-## Milestone 3: Real-Time Speech-to-Speech Integration
+## <a name="architecture"></a>🏗 System Architecture
 
-This milestone focused on moving from file-based processing to a fully **real-time, event-driven pipeline**. The system now captures live audio, translates it, and synthesizes speech instantly, meeting the "End-to-End Latency < 2 seconds" requirement.
+*High-level data flow illustrating the central Python orchestrator managing interactions between Speech-to-Text, Translation, and Text-to-Speech services.*
 
-### Setup Steps
+```mermaid
+graph TD
+    %% Nodes
+    User([👤 User / Mic])
+    App{🐍 Python Orchestrator}
+    STT[🗣️ Speech-to-Text]
+    TR[🌍 Translation]
+    TTS[🔊 Text-to-Speech]
 
-1.  **Folder Structure:** Created a dedicated `milestone3` folder with subdirectories for `temp` storage and `logs`.
-2.  **Orchestrator Script:** Developed `orchestrator.py`, a main control script that manages the asynchronous events between the Microphone, Azure STT, Azure Translator, and Azure TTS.
-3.  **Silence Optimization:** Tuned the Azure `Speech_SegmentationSilenceTimeoutMs` to **2000ms** to prevent the system from cutting off sentences too early during live speaking.
+    %% Flow
+    User -->|1. Speak| App
+    App -->|2. Send Audio| STT
+    STT -.->|3. Transcribed Text| App
+    App -->|4. Send Text| TR
+    TR -.->|5. Translated Text| App
+    App -->|6. Send Translation| TTS
+    TTS -.->|7. Audio Stream| App
+    App -->|8. Playback| User
 
-### API Details
-
-* **Service:** Azure Cognitive Services - **Speech Service (Text-to-Speech)**
-* **Function:** `speech_synthesizer.speak_text_async()`
-* **Streaming:** Enabled streaming synthesis to ensure playback starts (`t5`) as soon as the first byte of audio arrives (`t4`), rather than waiting for the whole file to generate.
-* **Voice Selection:** Configured to use specific neural voices (e.g., `hi-IN-SwaraNeural`) for natural-sounding output.
-
-### Latency Instrumentation & Architecture
-
-To meet the performance goals, the pipeline instruments specific timestamps for every utterance:
-
-* **$t_0$ (Audio Start):** Mic detects speech.
-* **$t_2$ (STT Final):** Text transcription received.
-* **$t_3$ (Translation):** Translated text received.
-* **$t_4$ (TTS First Byte):** First audio byte received from Azure (measured via `synthesizing` event).
-* **$t_5$ (Playback):** Audio begins playing on the client.
-
-**Formula:** `End-to-End Latency = t5 - t0`
-
-### Sample Input / Output (Live Demo)
-
-* **Input:** Live speech into the microphone (e.g., "What a beautiful shot by Virat Kohli").
-* **Output (Audio):** The computer immediately speaks the translation in Hindi.
-
-```text
-Listening: What a beautiful shot by Virat Kohli...
-
-[STT Final] What a beautiful shot by Virat Kohli.
-[Translated] विराट कोहली का कितना खूबसूरत शॉट है।
-
+    %% Styling (Colors)
+    style User fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style App fill:#FF9900,stroke:#CC7A00,stroke-width:2px,color:white
+    style STT fill:#0078D4,stroke:#004C87,stroke-width:2px,color:white
+    style TR fill:#107C10,stroke:#0B5A0B,stroke-width:2px,color:white
+    style TTS fill:#D13438,stroke:#A4262C,stroke-width:2px,color:white
 ```
-### Milestone 3 Snippets
-<img width="748" height="401" alt="1" src="https://github.com/user-attachments/assets/fe872e09-a2db-461a-a921-1ccb479ef5dd" />
-<img width="746" height="395" alt="2" src="https://github.com/user-attachments/assets/c9f8f450-8390-42bf-8684-18d870b5d924" />
-<img width="746" height="399" alt="3" src="https://github.com/user-attachments/assets/e939db01-bd9f-4789-8cba-8fc4c4572ebd" />
-<img width="748" height="398" alt="Screenshot 2025-11-24 183214" src="https://github.com/user-attachments/assets/fb734793-000a-48ab-bc4e-2b5762f88290" />
 
+---
 
-  
+## <a name="setup"></a>⚙️ Setup & Installation
+
+Follow these steps to set up the project locally for development or testing.
+
+### 1. Prerequisites
+
+* **Python 3.9+**
+* **Azure Cloud Account** with an active subscription.
+* **FFmpeg** (Required for audio format conversion).
+
+### 2. Installation
+
+```bash
+# Clone the repository
+git clone [https://github.com/your-username/Speech_to_speech_project.git](https://github.com/your-username/Speech_to_speech_project.git)
+cd Speech_to_speech_project
+
+# Create a virtual environment (Recommended)
+python -m venv venv
+# Windows: .\venv\Scripts\activate
+# Mac/Linux: source venv/bin/activate
+
+# Install dependencies
+pip install azure-cognitiveservices-speech requests python-dotenv
+```
+
+### 3. Configuration (.env)
+
+Create a `.env` file in the root directory. **Do not hardcode keys.**
+
+```ini
+SPEECH_KEY=your_azure_speech_key
+SPEECH_REGION=centralindia
+TRANSLATOR_KEY=your_azure_translator_key
+TRANSLATOR_REGION=centralindia
+```
+
+---
+
+## <a name="milestone1"></a>🚩 Milestone 1: Speech Recognition & Data Collection
+
+**Focus:** Batch transcription of audio files and initial microphone setup.
+
+### 🛠 Technical Details
+
+* **SDK:** `azure.cognitiveservices.speech`
+* **Language Support:** Configured for `en-US` and `hi-IN` (Hindi).
+* **Scripts:**
+    * `transcribe_files.py`: Batch processes `.wav` files.
+    * `recognize_once.py`: Live microphone capture.
+
+### 📂 Outputs
+
+The system processes audio from `/speech_samples` and generates a CSV:
+
+| Filename | Language | Transcript |
+| :--- | :--- | :--- |
+| `en_1audio.wav` | en | "Historic moment for Indian cricket Virat Kohli..." |
+| `hi_1audio.wav` | hi | "आज मौसम साफ बना हुआ है..." |
+
+<details>
+<summary><b>📸 Click to view Live Recording Logs</b></summary>
+
+```bash
+PS C:\...> python scripts\recognize_once.py
+VOICE RECORDER WITH AUTO-STOP
+Say 'end recording' to stop.
+
+Recording started... Speak now!
+Hello.
+End recording.
+
+FINAL TRANSCRIPTION SAVED!
+Saved to: ...\transcripts\recognized_output.csv
+```
+
+</details>
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/b5171e63-081c-4c0b-9ad2-2a69080f46e8" width="800" alt="CSV Output">
+</div>
+
+---
+
+## <a name="milestone2"></a>🚩 Milestone 2: Translation Module & STT Integration
+
+**Focus:** Integrating Azure Translator REST API with the STT output.
+
+### 🛠 Technical Details
+
+* **API Protocol:** REST (POST requests).
+* **Endpoint:** `api.cognitive.microsofttranslator.com`
+* **Workflow:** Reads `transcripts.csv` → Sends to API → Prints Multi-language Output.
+
+### 💻 Sample Execution
+
+<details>
+<summary><b>👁️ View Console Output Log</b></summary>
+
+```bash
+==================================================
+Original Text (en): Historic moment for Indian cricket...
+
+Translated Outputs:
+   HI: भारतीय क्रिकेट विराट कोहली के लिए ऐतिहासिक पल...
+   FR: Moment historique pour le cricket indien...
+   DE: Historischer Moment für das indische Cricket...
+==================================================
+```
+
+</details>
+
+**Frontend Demo:**
+A Streamlit-based UI was developed to visualize the input and output.
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/cec6d3e7-b846-42bb-86a0-1561185854d4" width="600" alt="Frontend UI">
+</div>
+
+---
+
+## <a name="milestone3"></a>🚩 Milestone 3: Real-Time Speech-to-Speech Integration
+
+**Focus:** Full event-driven pipeline with Latency < 2 seconds.
+
+### 🚀 Key Features
+
+1. **Asynchronous Orchestration:** `orchestrator.py` manages concurrent events.
+2. **Streaming Synthesis:** TTS playback begins immediately upon receiving the first byte.
+3. **Smart Silence Detection:** Timeout tuned to `2000ms` for natural pausing.
+
+### ⏱️ Latency Architecture
+
+We instrument the following timestamps to measure performance:
+
+$$ \text{Latency} = t_{playback} - t_{mic\_start} $$
+
+* **$t_0$**: Mic detects speech.
+* **$t_2$**: STT Transcription Finalized.
+* **$t_3$**: Translation Received.
+* **$t_5$**: TTS Audio Playback Starts.
+
+### 🎥 Live Output
+
+> **Input:** "What a beautiful shot by Virat Kohli"
+> **Output (Audio):** "विराट कोहली का कितना खूबसूरत शॉट है" (Hindi)
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/fe872e09-a2db-461a-a921-1ccb479ef5dd" width="45%" alt="Latency Log 1">
+<img src="https://github.com/user-attachments/assets/c9f8f450-8390-42bf-8684-18d870b5d924" width="45%" alt="Latency Log 2">
+</div>
+
+---
+
+*© 2025 Project for Infosys Springboard Virtual Internship 6.0*
