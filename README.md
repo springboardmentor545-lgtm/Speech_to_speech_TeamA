@@ -14,7 +14,7 @@
 - [🏗 System Architecture](#-system-architecture)
 - [🚀 User Interface](#-user-interface)
 - [🛠️ Tech Stack](#️-tech-stack)
-- [⚙️ Installation & Setup](#-installation--setup)
+- [⚙️ Installation & Setup](#setup)
 - [🕹️ Usage Guide](#️-usage-guide)
 - [📊 Performance Logs](#-performance-logs)
 
@@ -106,7 +106,7 @@ The application features a modern, Bento-grid style dashboard optimized for clar
 
 ---
 
-## ⚙️ Installation & Setup
+## <a id="setup"></a>⚙️ Installation & Setup
 
 ### 1. Prerequisites
 - Python 3.9+
