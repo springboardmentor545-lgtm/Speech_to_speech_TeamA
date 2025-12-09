@@ -8,6 +8,17 @@
 > **Bridging language barriers in real-time through event-driven AI orchestration.**
 
 ---
+## 📑 Table of Contents
+- [📖 Overview](#-overview)
+- [✨ Key Features](#-key-features)
+- [🏗 System Architecture](#-system-architecture)
+- [🚀 User Interface](#-user-interface)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [⚙️ Installation & Setup](#-installation--setup)
+- [🕹️ Usage Guide](#️-usage-guide)
+- [📊 Performance Logs](#-performance-logs)
+
+---
 
 ## 📖 Overview
 
