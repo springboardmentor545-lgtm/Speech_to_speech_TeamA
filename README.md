@@ -69,14 +69,17 @@ The application features a modern, Bento-grid style dashboard optimized for clar
 
 
 ![page 1_page-0001 (1)](https://github.com/user-attachments/assets/210b8a9a-436f-4b69-86f8-54475950df04)
-![page 1_page-0002 (2)](https://github.com/user-attachments/assets/f0335032-18b3-4ec1-9939-007ac8a800d5)
+![page 1_page-0002 (2) (2) (1)](https://github.com/user-attachments/assets/b05b3041-42fe-45be-8570-395b4d292ced)
+
+
 
 
 
 **Dashboard Elements:**
-- Mode toggle (Microphone / YouTube)
-- Live transcript + translation
-- Real-time audio waveform visualizers
+- Video Speech Translation
+- Real-Time & Text Translation
+- Batch Processing
+- Diagnostics
 
 ---
 
@@ -131,8 +134,8 @@ TRANSLATOR_REGION=centralindia
 ```bash
 streamlit run app.py
 ```
-- Select **Microphone** from the sidebar  
-- Click **Start**  
+- Select **RealTime STT & Translation** from the sidebar  
+- Click **Start Listening**  
 - Speak naturally — the system detects silence and auto-translates  
 
 ![page 2_page-0001 (1)](https://github.com/user-attachments/assets/2f92284a-a03d-43b0-83e4-b9c64103931e)
@@ -142,8 +145,9 @@ streamlit run app.py
 
 ### **Mode B: YouTube Translation**
 
-- Select **YouTube URL** from the sidebar  
-- Paste a valid link (e.g., news clip, speech)  
+- Select **Video Speech Translation** from the sidebar  
+- Paste a valid link (e.g., news clip, speech)
+- Click Process Video
 - The system extracts audio, transcribes it, and reads out the translated speech  
 
 ![page 5_page-0001 (1)](https://github.com/user-attachments/assets/7ba52a5a-c82f-4155-936c-360c7a2e575f)
@@ -153,12 +157,11 @@ streamlit run app.py
 ---
 ---
 
-### **Mode C: Audio File Translation**
+### **Mode C: Batch Processing**
 
-- Select **Upload Audio** from the sidebar
-- Upload a supported audio file (WAV/MP3)
-- Select your target language
-- The system processes the file and generates the translated audio
+- Select **Batch Processing** from the sidebar
+- Upload a supported audio file (WAV)
+- The system processes the file and generates the transcript
 
 ![page 3_page-0001 (1)](https://github.com/user-attachments/assets/41259340-cf7b-4c19-84b3-abcf74fed69b)
 
