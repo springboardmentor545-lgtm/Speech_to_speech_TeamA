@@ -1,4 +1,5 @@
-# 🎙️ AI-Powered Real-Time Speech Translator
+# 🌐 Voice Without Borders : AI-Powered Real-Time Speech Translation
+
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square)
@@ -50,18 +51,61 @@ The system relies on a Python-based orchestrator that manages the flow of data b
 
 
 ```mermaid
-graph LR
-    Input[🎤 Mic / 📺 YouTube] --> Ext[📥 Audio Extractor]
-    Ext --> Orchestrator{🐍 Orchestrator}
-    Orchestrator --> STT[☁️ Azure STT]
-    STT --> Trans[☁️ Azure Translate]
-    Trans --> TTS[☁️ Azure TTS]
-    TTS --> Speaker[🔊 Audio Output]
+graph TD
+    %% --- Color Palette Definitions ---
+    classDef source fill:#d4edda,stroke:#28a745,stroke-width:2px,color:#155724
+    classDef logic fill:#fff3cd,stroke:#ffc107,stroke-width:3px,color:#856404
+    classDef cloud fill:#cce5ff,stroke:#007bff,stroke-width:2px,color:#004085
+    classDef output fill:#f8d7da,stroke:#dc3545,stroke-width:2px,color:#721c24
+
+    %% --- STAGE 1: INPUT SOURCES ---
+    subgraph S1 ["🟢 Stage 1: Input Sources"]
+        direction TB
+        Mic["🎤 Microphone<br/>(Live Voice)"]
+        YT["📺 YouTube Video<br/>(URL Extraction)"]
+    end
+
+    %% --- STAGE 2: THE BRAIN ---
+    subgraph S2 ["🟠 Stage 2: The Controller"]
+        Python{"🐍 Python App<br/>(Orchestrator)"}
+    end
+
+    %% --- STAGE 3: AZURE AI ---
+    subgraph S3 ["🔵 Stage 3: Azure Cloud Processing"]
+        direction TB
+        STT["👂 Speech-to-Text<br/>(Audio ➔ Text)"]
+        Trans["🌍 Translator<br/>(Eng ➔ Target Lang)"]
+        TTS["🗣️ Text-to-Speech<br/>(Text ➔ Audio)"]
+    end
+
+    %% --- STAGE 4: USER OUTPUT ---
+    subgraph S4 ["🔴 Stage 4: Final Output"]
+        direction TB
+        Speaker["🔊 Speaker<br/>(Play Audio)"]
+        Display["📜 Screen<br/>(Show Subtitles)"]
+    end
+
+    %% --- FLOW CONNECTIONS ---
     
-    style Orchestrator fill:#FF9900,stroke:#333,stroke-width:2px,color:white
-    style STT fill:#0078D4,stroke:#333,stroke-width:0px,color:white
-    style Trans fill:#107C10,stroke:#333,stroke-width:0px,color:white
-    style TTS fill:#5C2D91,stroke:#333,stroke-width:0px,color:white
+    %% 1. Input to Python
+    Mic -->|Raw Audio Stream| Python
+    YT -->|Extracted Audio| Python
+
+    %% 2. Python to Cloud Pipeline
+    Python -->|1. Send Audio| STT
+    STT -->|2. Return Text| Trans
+    Trans -->|3. Return Translated Text| TTS
+    TTS -->|4. Return Synth Audio| Python
+
+    %% 3. Python to Output
+    Python ===>|Final Audio| Speaker
+    Python -.->|Live Transcript| Display
+
+    %% --- APPLY STYLES ---
+    class Mic,YT source
+    class Python logic
+    class STT,Trans,TTS cloud
+    class Speaker,Display output
 ```
 ### 📉 Latency Modeling
 
@@ -183,11 +227,22 @@ The system maintains logs to measure translation accuracy and response times.
 <details>
 <summary><b>📂 Click to view sample CSV Output</b></summary>
 
-| Filename        | Language | Transcript                                   | Translation                                   |
-|-----------------|----------|-----------------------------------------------|------------------------------------------------|
-| live_rec_01.wav | en-US    | "Historic moment for Indian cricket."        | "भारतीय क्रिकेट के लिए ऐतिहासिक पल।"        |
-| yt_clip_04.wav  | hi-IN    | "आज मौसम साफ बना हुआ है..."                 | "The weather remains clear today..."          |
+| Filename | Language | Transcript | Translation |
+| :--- | :--- | :--- | :--- |
+| `live_rec_01.wav` | en-US | "Historic moment for Indian cricket." | "भारतीय क्रिकेट के लिए ऐतिहासिक पल।" |
+| `yt_clip_04.wav` | hi-IN | "आज मौसम साफ बना हुआ है..." | "The weather remains clear today..." |
 
 </details>
-
 *© 2025 Project for Infosys Springboard Virtual Internship 6.0*
+<br>
+
+<div align="center">
+
+### 🔥 Found this helpful ?
+
+If so, please consider giving it a **⭐ Star** on GitHub!
+
+
+</div>
+
+<br>
