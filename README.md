@@ -233,7 +233,7 @@ The system maintains logs to measure translation accuracy and response times.
 | `yt_clip_04.wav` | hi-IN | "आज मौसम साफ बना हुआ है..." | "The weather remains clear today..." |
 
 </details>
-*© 2025 Vidzai Digital*
+© 2025 Vidzai Digital
 <br>
 
 <div align="center">
